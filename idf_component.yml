@@ -1,0 +1,23 @@
+version: 0.1.0
+name: node_id
+summary: "Crockford Base32 node ID from factory MAC with checksum (format: XXXX-XXXC)."
+description: |
+  node_id provides a deterministic device identifier derived from the ESP32 factory MAC address.
+  It encodes a CRC32 of the MAC into 7 Base32 (Crockford) characters and appends a 1-character
+  checksum, yielding a compact 9-character token in the shape "XXXX-XXXC".
+
+  API:
+    - esp_err_t get_node_id(char **node_id, size_t *len);
+
+  The function returns a pointer to an internal static buffer that remains valid for the lifetime
+  of the process. The string is null-terminated.
+
+license: ISC
+
+dependencies:
+  # Require ESP-IDF version that provides esp_crc32_le and MAC helpers
+  idf: ">=5.0"
+
+examples:
+  - path: examples/usage
+    description: Minimal example showing how to print the node ID
