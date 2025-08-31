@@ -5,10 +5,11 @@
 #include "esp_err.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-esp_err_t get_node_id(char **node_id, size_t *len);
+    esp_err_t get_node_id(char **node_id, size_t *len);
 
 #ifdef __cplusplus
 }

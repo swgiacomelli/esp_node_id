@@ -15,9 +15,9 @@
  * - 7 chars are Base32 (Crockford) encoding of a CRC32 over the factory MAC
  * - The last char is a 5-bit checksum derived from those 7 chars
  */
-#define NODE_ID_PAYLOAD_LEN   7
-#define NODE_ID_STR_LEN       9
-#define NODE_ID_BUF_LEN       (NODE_ID_STR_LEN + 1)
+#define NODE_ID_PAYLOAD_LEN 7
+#define NODE_ID_STR_LEN 9
+#define NODE_ID_BUF_LEN (NODE_ID_STR_LEN + 1)
 
 // Base32 Crockford alphabet (no I, L, O, U)
 static const char s_crock32[] = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
@@ -39,7 +39,8 @@ static inline char crock32_encode5(uint8_t v)
 static void crock32_encode_u32_7(uint32_t x, char out[NODE_ID_PAYLOAD_LEN])
 {
     // 7 chars * 5 bits = 35 bits (but we only have 32; top 3 bits are zero)
-    for (int i = NODE_ID_PAYLOAD_LEN - 1; i >= 0; --i) {
+    for (int i = NODE_ID_PAYLOAD_LEN - 1; i >= 0; --i)
+    {
         out[i] = crock32_encode5((uint8_t)(x & 0x1F));
         x >>= 5;
     }
@@ -49,9 +50,11 @@ static void crock32_encode_u32_7(uint32_t x, char out[NODE_ID_PAYLOAD_LEN])
 static uint8_t checksum5_over_payload(const char *data, size_t len)
 {
     uint8_t crc = 0xFF;
-    for (size_t i = 0; i < len; ++i) {
+    for (size_t i = 0; i < len; ++i)
+    {
         crc ^= (uint8_t)data[i];
-        for (int b = 0; b < 8; ++b) {
+        for (int b = 0; b < 8; ++b)
+        {
             crc = (crc & 0x80) ? (uint8_t)((crc << 1) ^ 0x31) : (uint8_t)(crc << 1);
         }
     }
@@ -63,7 +66,8 @@ static uint8_t checksum5_over_payload(const char *data, size_t len)
 // Build the cached node ID string once
 static esp_err_t node_id_make(void)
 {
-    if (s_node_id_initialized) {
+    if (s_node_id_initialized)
+    {
         return ESP_OK;
     }
 
@@ -105,12 +109,14 @@ static esp_err_t node_id_make(void)
  */
 esp_err_t get_node_id(char **node_id, size_t *len)
 {
-    if (!node_id || !len) {
+    if (!node_id || !len)
+    {
         return ESP_ERR_INVALID_ARG;
     }
 
     esp_err_t err = node_id_make();
-    if (err != ESP_OK) {
+    if (err != ESP_OK)
+    {
         return err;
     }
 
