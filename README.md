@@ -37,6 +37,23 @@ A minimal example app is provided in `examples/usage/`.
 
 - ESP-IDF >= 5.0
 
+## Install (from Git)
+Repo: https://github.com/swgiacomelli/esp_node_id
+
+Two simple ways:
+- Submodule: add to your project at `components/node_id`.
+- External dir: keep it anywhere and point EXTRA_COMPONENT_DIRS to its parent.
+
+Submodule example (PowerShell):
+```
+git submodule add https://github.com/swgiacomelli/esp_node_id components/node_id
+```
+
+External dir build example:
+```
+idf.py -DEXTRA_COMPONENT_DIRS="C:/path/to/esp_node_id" build
+```
+
 ## License
 
 ISC. See `LICENSE`.
