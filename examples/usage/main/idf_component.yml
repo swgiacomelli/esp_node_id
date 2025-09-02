@@ -1,0 +1,4 @@
+dependencies:
+  esp_node_id:
+    version: '0.*'
+    override_path: '../../../'

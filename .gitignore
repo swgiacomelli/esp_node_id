@@ -1,0 +1,21 @@
+# examples
+**/examples/**/sdkconfig
+**/examples/**/sdkconfig.old
+**/examples/**/build
+
+# ESP-IDF default build directory name
+build
+sdkconfig
+sdkconfig.old
+
+# lock files for examples and components
+dependencies.lock
+
+# managed_components for examples
+managed_components
+
+# pytest log
+pytest_embedded_log/
+
+# vscode
+.vscode/
