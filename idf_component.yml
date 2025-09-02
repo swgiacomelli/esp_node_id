@@ -1,13 +1,23 @@
-version: 0.1.0
-name: node_id
-summary: "Crockford Base32 node ID from factory MAC with checksum (format: XXXX-XXXC)."
-description: |
-  node_id provides a deterministic device identifier derived from the ESP32 factory MAC address.
-  It encodes a CRC32 of the MAC into 7 Base32 (Crockford) characters and appends a 1-character
-  checksum, yielding a compact 9-character token in the shape "XXXX-XXXC".
+version: 0.2.0
+name: esp_node_id
 
-  API:
-    - esp_err_t get_node_id(char **node_id, size_t *len);
+summary: "Thread-safe, deterministic node ID (Crockford Base32) from MAC or custom identity."
+description: |
+  esp_node_id provides a deterministic device identifier derived from the ESP32 factory MAC address by default,
+  or from a custom identity (e.g., public key) if provided. The ID is encoded in Crockford Base32 with a checksum,
+  yielding a compact, human-friendly token in the shape "XXXXX-XXXXX-XXX-C".
+
+  Features:
+    - Thread-safe initialization (FreeRTOS mutex)
+    - Fallback to MAC address if no identity is provided
+    - Optionally accept custom identity (e.g., public key)
+    - Internal static buffer is never freed; valid for process lifetime
+    - API:
+  - esp_err_t node_id_init(const uint8_t* identity_str, size_t len);
+  - esp_err_t node_id_force_init(const uint8_t* identity_str, size_t len); // Unsafe
+  - esp_err_t get_node_id(char **node_id, size_t *len);
+
+  WARNING: Forced re-initialization is inherently unsafe if other modules are using the node ID.
 
   The function returns a pointer to an internal static buffer that remains valid for the lifetime
   of the process. The string is null-terminated.
@@ -15,7 +25,6 @@ description: |
 license: ISC
 
 dependencies:
-  # Require ESP-IDF version that provides esp_crc32_le and MAC helpers
   idf: ">=5.0"
 
 examples:
